@@ -12,6 +12,9 @@ public class MultipleLockDoor : InteractiveObject
     [SerializeField]
     private InventoryObject key1;
 
+    [SerializeField]
+    private InventoryObject key2;
+
     [Tooltip("If this is checked, the associated key will be removed from the player's inventory when the door is unlocked.")]
     [SerializeField] private bool consumesKey;
 
@@ -36,6 +39,7 @@ public class MultipleLockDoor : InteractiveObject
             {
                 toReturn = HasKey0 ? $"Use {key0.ObjectName}" : lockedDisplayText;
                 toReturn = HasKey1 ? $"Use {key1.ObjectName}" : lockedDisplayText;
+                toReturn = HasKey2 ? $"Use {key2.ObjectName}" : lockedDisplayText;
             }
             else
             {
@@ -49,6 +53,7 @@ public class MultipleLockDoor : InteractiveObject
     //Contains is somewhere in my Inventory class, probably InventoryObject
     private bool HasKey0 => PlayerInventory.InventoryObjects.Contains(key0);
     private bool HasKey1 => PlayerInventory.InventoryObjects.Contains(key1);
+    private bool HasKey2 => PlayerInventory.InventoryObjects.Contains(key2);
     private Animator animator;
     private bool isOpen = false;
     private bool isLocked;
@@ -69,7 +74,7 @@ public class MultipleLockDoor : InteractiveObject
 
     private void InitializeIsLocked()
     {
-        if (key0 != null || key1 != null)
+        if (key0 != null || key1 != null || key2 != null)
         {
             isLocked = true;
         }
@@ -105,6 +110,10 @@ public class MultipleLockDoor : InteractiveObject
         else if (key1 != null && consumesKey)
         {
             PlayerInventory.InventoryObjects.Remove(key1);
+        }
+        else if(key2 != null && consumesKey)
+        {
+            PlayerInventory.InventoryObjects.Remove(key2);
         }
     }
 }
